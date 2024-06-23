@@ -3,8 +3,11 @@
 
 这是一个利用 NodeMCU 接入 433Mhz 射频到 HomeAssistant 的项目。
 
-## RoadMap
 > WIP: 等待射频模块到货，现在你只能开关板载的 LED 灯
+
+![](./res/wip.jpg)
+
+## RoadMap
 
 - [x] WiFi / MQTT 对于 HA 的接入
 - [ ] 射频学习
