@@ -1,15 +1,14 @@
 # rf-bridge
 
-
 这是一个利用 NodeMCU 接入 433Mhz 射频到 Home Assistant 的项目。
 
-> WIP: 等待射频模块到货，待验证
+![](./res/1.jpg)
 
 ## Roadmap
 
 - [x] WiFi / MQTT 对于 HA 的接入
-- [ ] 射频接收测试 (待验证)
-- [ ] 射频发射测试 (待验证)
+- [x] 射频接收测试
+- [x] 射频发射测试
 
 ## Background
 
@@ -32,6 +31,11 @@ mqtt:
 ```
 
 其中，`payload_press` 的内容为 `长度|代码`，可以在 HA 的 MQTT 界面通过监听 `home/rf-bridge` 这个 `topic` 获得，理论上可以同时接入 114514 个射频设备。
+
+> 如果你觉得信号差，可以加根双公导线在发送端天线上，然后另一头对准你想操控的设备（如下图），也可以直接买信号加强版模块
+
+![](./res/2.png)
+
 
 ## References
 - https://nodemcu.readthedocs.io/en/release/

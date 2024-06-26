@@ -1,10 +1,10 @@
 #include "bridge.h"
 
 #define LED D4
-#define VERSION "0.1"
+#define VERSION "1.0"
 
-#define RECV_PIN D3
-#define SEND_PIN D10
+#define RECV_PIN D2
+#define SEND_PIN D1
 
 // -------------------- Configurations -----------------------------
 const PROGMEM char *WiFi_SSID = "Ireina";
@@ -27,7 +27,7 @@ RCSwitch recvSwitch, sendSwitch;
 void blink()
 {
   digitalWrite(LED, LOW);
-  delay(500);
+  delay(10);
   digitalWrite(LED, HIGH);
 }
 
@@ -43,7 +43,7 @@ void callback(char *p_topic, byte *p_payload, unsigned int p_length)
       *separator = '\0';
       unsigned length = atoi(payload);
       unsigned long code = strtoul(separator + 1, nullptr, 16);
-      LOG_INFO("Send:", length, '|', code);
+      LOG_INFO("Send:", length, '|', String(code, HEX));
       sendSwitch.send(code, length);
       blink();
     }
@@ -53,7 +53,7 @@ void callback(char *p_topic, byte *p_payload, unsigned int p_length)
 void rc_recv()
 {
   blink();
-  String data = recvSwitch.getReceivedBitlength() + '|' + String(recvSwitch.getReceivedValue(), HEX);
+  String data = String(recvSwitch.getReceivedBitlength()) + "|" + String(recvSwitch.getReceivedValue(), HEX);
   LOG_INFO("Received:", data);
   LOG_INFO("Protocol:", recvSwitch.getReceivedProtocol());
   recvSwitch.resetAvailable();
@@ -88,14 +88,14 @@ void setup()
   sendSwitch.enableTransmit(SEND_PIN);
 
   WiFi.mode(WIFI_STA);
-  WiFi.setHostname("switch433");
+  WiFi.setHostname("rf-bridge");
   WiFi.begin(WiFi_SSID, WiFi_Password);
   WiFi.setAutoReconnect(true);
 
   LOG_INFO("Connecting wifi...");
   while (!WiFi.isConnected())
   {
-    delay(1000);
+    delay(500);
     LOG_INFO("Waiting...");
   }
   LOG_INFO("WiFi connected.");
